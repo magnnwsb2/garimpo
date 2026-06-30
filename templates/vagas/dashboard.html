@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Garimpo{% endblock %}
+
+{% block content %}
+<section class="dashboard-hero">
+    <div>
+        <h2>Dashboard de Compatibilidade</h2>
+        <p>Selecione um currículo e uma vaga para analisar o percentual específico de aderência.</p>
+    </div>
+
+    <div class="hero-actions">
+        <a class="button js-update-jobs" href="/atualizar-vagas/">Atualizar Vagas</a>
+        <a class="button secondary" href="/curriculos/">Meus Currículos</a>
+    </div>
+</section>
+
+<main class="dashboard-main">
+    <section class="dashboard-kpis">
+        <div class="dash-card kpi-card">
+            <span>Total de Currículos</span>
+            <strong>{{ total_curriculos }}</strong>
+            <small>Currículos disponíveis para análise</small>
+        </div>
+
+        <div class="dash-card kpi-card">
+            <span>Vagas Encontradas</span>
+            <strong>{{ total_vagas }}</strong>
+            <small>Oportunidades coletadas</small>
+        </div>
+
+        <div class="dash-card kpi-card">
+            <span>Matches Calculados</span>
+            <strong>{{ total_matches }}</strong>
+            <small>Análises salvas no histórico</small>
+        </div>
+
+        <div class="dash-card kpi-card highlight compatibility-card {% if resultado_vaga_selecionada %}{{ resultado_vaga_selecionada.classe_indice }}{% endif %}">
+            <span>Compatibilidade da Vaga Selecionada</span>
+            {% if resultado_vaga_selecionada %}
+                <strong class="indice-principal {{ resultado_vaga_selecionada.classe_indice }}">{{ resultado_vaga_selecionada.indice_label }}</strong>
+                <small>{{ resultado_vaga_selecionada.vaga.titulo }}</small>
+            {% else %}
+                <strong>0%</strong>
+                <small>Selecione uma vaga para análise</small>
+            {% endif %}
+        </div>
+    </section>
+
+    <div class="dash-card filter-card">
+        <h3>Filtros da análise</h3>
+
+        <form method="get" action="{% url 'dashboard' %}">
+            <label>Currículo analisado</label>
+            <select name="curriculo_id">
+                {% for curriculo in curriculos %}
+                    <option value="{{ curriculo.id }}"
+                        {% if curriculo_selecionado and curriculo.id == curriculo_selecionado.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ curriculo.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Vaga selecionada</label>
+            <select name="vaga_id">
+                {% for vaga in vagas %}
+                    <option value="{{ vaga.id }}"
+                        {% if vaga_selecionada and vaga.id == vaga_selecionada.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ vaga.titulo }} - {{ vaga.empresa }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Filtrar vagas por cargo, empresa, descrição ou skill</label>
+            <input
+                type="text"
+                name="q"
+                value="{{ filtro_vagas }}"
+                placeholder="Ex: python, django, sql, data engineer"
+            >
+
+            <button type="submit">Gerar Escore</button>
+            <a class="button secondary" href="/dashboard/">Limpar Filtro</a>
+        </form>
+    </div>
+
+    <section class="dashboard-grid">
+        <div class="dashboard-content">
+            <div class="dash-card">
+                <div class="section-title">
+                    <div>
+                        <h3>Ranking de Vagas</h3>
+                        <p>Vagas ordenadas por compatibilidade com o currículo selecionado.</p>
+                    </div>
+                </div>
+
+                {% if not curriculos %}
+                    <div class="alerta">
+                        Nenhum currículo enviado ainda. Acesse Meus Currículos para enviar um PDF.
+                    </div>
+                {% endif %}
+
+                {% if not vagas %}
+                    <div class="alerta">
+                        Nenhuma vaga encontrada no banco. Clique em Atualizar Vagas.
+                    </div>
+                {% endif %}
+
+                {% if curriculo_selecionado and ranking_vagas %}
+                    <div class="ranking-list">
+                        {% for item in ranking_vagas %}
+                            <div class="ranking-item {% if vaga_selecionada and item.vaga.id == vaga_selecionada.id %}selected-job{% endif %}">
+                                <div class="ranking-header">
+                                    <div>
+                                        <h4>{{ item.vaga.titulo }}</h4>
+                                        <p>{{ item.vaga.empresa }}</p>
+                                    </div>
+
+                                    <div class="ranking-score {{ item.classe_indice }}">
+                                        {{ item.indice_label }}
+                                    </div>
+                                </div>
+
+                                <div class="progress-bar soft">
+                                    <div class="progress-fill {{ item.classe_indice }}" style="width: {{ item.percentual }}%;"></div>
+                                </div>
+
+                                <form method="get" action="{% url 'dashboard' %}">
+                                    {% if curriculo_selecionado %}
+                                        <input type="hidden" name="curriculo_id" value="{{ curriculo_selecionado.id }}">
+                                    {% endif %}
+
+                                    <input type="hidden" name="vaga_id" value="{{ item.vaga.id }}">
+
+                                    {% if filtro_vagas %}
+                                        <input type="hidden" name="q" value="{{ filtro_vagas }}">
+                                    {% endif %}
+
+                                    <button type="submit" class="button secondary">
+                                        Selecionar esta vaga
+                                    </button>
+                                </form>
+
+                                <div class="job-summary">
+                                    <strong>Resumo da vaga:</strong>
+                                    <p>{{ item.vaga.descricao|truncatechars:260 }}</p>
+
+                                    {% if item.vaga.descricao|length > 260 %}
+                                        <details>
+                                            <summary>Ler mais</summary>
+                                            <p>{{ item.vaga.descricao }}</p>
+                                        </details>
+                                    {% endif %}
+                                </div>
+
+                                <div class="skill-columns">
+                                    <div class="skill-box positive">
+                                        <strong>Competências alinhadas</strong>
+                                        <p>
+                                            {% if item.encontradas %}
+                                                {{ item.encontradas|join:", " }}
+                                            {% else %}
+                                                Nenhuma competência alinhada.
+                                            {% endif %}
+                                        </p>
+                                    </div>
+
+                                    <div class="skill-box negative">
+                                        <strong>Competências faltantes</strong>
+                                        <p>
+                                            {% if item.faltantes %}
+                                                {{ item.faltantes|join:", " }}
+                                            {% else %}
+                                                Nenhuma competência faltante.
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <aside class="dashboard-side">
+            <div class="dash-card profile-card">
+                <div class="profile-avatar">
+                    {% if user.is_authenticated %}
+                        {{ user.username|first|upper }}
+                    {% else %}
+                        G
+                    {% endif %}
+                </div>
+
+                <h3>Análise do Perfil</h3>
+
+                {% if curriculo_selecionado %}
+                    <p><strong>Currículo:</strong> {{ curriculo_selecionado.nome }}</p>
+                {% else %}
+                    <p>Nenhum currículo selecionado.</p>
+                {% endif %}
+            </div>
+
+            {% if resultado_vaga_selecionada %}
+                <div class="dash-card selected-job-panel">
+                    <h3>Vaga Selecionada</h3>
+                    <p><strong>{{ resultado_vaga_selecionada.vaga.titulo }}</strong></p>
+                    <p>{{ resultado_vaga_selecionada.vaga.empresa }}</p>
+
+                    <div class="selected-percent {{ resultado_vaga_selecionada.classe_indice }}">
+                        {{ resultado_vaga_selecionada.indice_label }}
+                    </div>
+
+                    <p>
+                        Este percentual representa a compatibilidade desta vaga específica com o currículo selecionado.
+                    </p>
+
+                    {% if resultado_vaga_selecionada.excede_requisitos %}
+                        <p>
+                            O índice aparece como <strong>100%+</strong> porque o currículo atende todas as competências exigidas
+                            e ainda possui competências extras.
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if curriculo_selecionado %}
+                <div class="dash-card skills-panel">
+                    <h3>Skills do Currículo</h3>
+                    <p>{{ curriculo_selecionado.skills_extraidas|default:"Nenhuma skill identificada." }}</p>
+                </div>
+            {% endif %}
+
+            <div class="dash-card info-panel">
+                <h3>Como interpretar?</h3>
+                <p>
+                    A base do cálculo compara as skills exigidas pela vaga com as skills encontradas no currículo.
+                </p>
+                <p>
+                    Quando todas as exigências são atendidas, o resultado chega a 100%.
+                    Se o currículo tiver competências extras, recebe bônus e pode ultrapassar 100%.
+                </p>
+            </div>
+        </aside>
+    </section>
+</main>
+{% endblock %}
