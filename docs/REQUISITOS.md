@@ -194,7 +194,7 @@ https://github.com/magnnwsb2/garimpo
 
 ## 17. Link para o Projeto em Produção
 
-A definir após deploy no Render.
+https://garimpo-yzkr.onrender.com
 
 ## 18. Observação sobre Docker
 
