@@ -9,6 +9,22 @@
 </section>
 
 <main>
+
+    <div class="card">
+        <h2>Filtrar Vagas</h2>
+        <form method="get" action="{% url 'listar_vagas' %}">
+            <label>Buscar por cargo, empresa, descrição ou skill</label>
+            <input
+                type="text"
+                name="q"
+                value="{{ filtro_vagas }}"
+                placeholder="Ex: python, django, sql, data engineer"
+            >
+            <button type="submit">Filtrar</button>
+            <a class="button secondary" href="/vagas/">Limpar Filtro</a>
+        </form>
+    </div>
+
     {% if not curriculos %}
         <div class="alerta">
             Nenhum currículo enviado ainda. <a href="/upload/">Enviar currículo</a>
@@ -18,7 +34,7 @@
     {% if not vagas %}
         <div class="alerta">
             Nenhuma vaga cadastrada ainda.
-            Clique em <strong>Carregar Vagas Demo</strong> ou <strong>Importar Vagas Reais</strong> no menu lateral.
+            Clique em <strong>Atualizar Vagas</strong> ou <strong>Atualizar Vagas</strong> no menu lateral.
         </div>
     {% endif %}
 
@@ -32,7 +48,20 @@
             {% endif %}
 
             <p><strong>Skills exigidas:</strong> {{ vaga.skills_exigidas }}</p>
-            <p>{{ vaga.descricao }}</p>
+
+            <div class="descricao-vaga">
+                <strong>Descrição da vaga:</strong>
+                <p>
+                    {{ vaga.descricao|truncatechars:350 }}
+                </p>
+
+                {% if vaga.descricao|length > 350 %}
+                    <details>
+                        <summary>Ler mais</summary>
+                        <p>{{ vaga.descricao }}</p>
+                    </details>
+                {% endif %}
+            </div>
 
             {% if curriculos %}
                 <form method="post" action="{% url 'listar_vagas' %}#vaga-{{ vaga.id }}">

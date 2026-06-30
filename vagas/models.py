@@ -1,15 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Curriculo(models.Model):
-    """
-    Representa o currículo enviado pelo usuário.
-
-    O arquivo PDF é armazenado no diretório media/curriculos.
-    As skills extraídas são salvas como texto simples separado por vírgula
-    para manter o MVP simples e funcional.
-    """
-
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     nome = models.CharField(max_length=150)
     arquivo = models.FileField(upload_to="curriculos/")
     texto_extraido = models.TextField(blank=True)
@@ -21,13 +20,6 @@ class Curriculo(models.Model):
 
 
 class Vaga(models.Model):
-    """
-    Representa uma vaga cadastrada no sistema.
-
-    As skills exigidas são armazenadas como texto separado por vírgula.
-    Exemplo: Python, Django, SQL, Docker
-    """
-
     titulo = models.CharField(max_length=150)
     empresa = models.CharField(max_length=150)
     descricao = models.TextField(blank=True)
@@ -45,13 +37,12 @@ class Vaga(models.Model):
 
 
 class MatchResultado(models.Model):
-    """
-    Armazena o resultado da comparação entre um currículo e uma vaga.
-
-    O percentual de match é calculado com base na quantidade de skills
-    encontradas em relação ao total de skills exigidas pela vaga.
-    """
-
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     curriculo = models.ForeignKey(Curriculo, on_delete=models.CASCADE)
     vaga = models.ForeignKey(Vaga, on_delete=models.CASCADE)
     skills_encontradas = models.TextField(blank=True)

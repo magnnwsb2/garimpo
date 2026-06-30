@@ -1,41 +1,75 @@
 {% extends "base.html" %}
 
-{% block title %}Garimpo - Início{% endblock %}
+{% block title %}Garimpo - Como usar{% endblock %}
 
 {% block content %}
 <section class="page-header">
-    <h2>Dashboard Inicial</h2>
-    <p>MVP de curadoria de vagas e compatibilidade técnica</p>
+    <h2>Como usar o Garimpo</h2>
+    <p>Guia rápido para analisar a compatibilidade entre currículo e vagas de tecnologia.</p>
 </section>
 
 <main>
     <div class="grid">
         <div class="card">
-            <h2>1. Upload de Currículo</h2>
-            <p>Envie um currículo em PDF para que o sistema extraia skills técnicas automaticamente.</p>
+            <h2>1. Crie uma conta ou entre no sistema</h2>
+            <p>
+                O login é opcional, mas recomendado. Com uma conta, seus currículos
+                e resultados ficam vinculados ao seu usuário.
+            </p>
         </div>
 
         <div class="card">
-            <h2>2. Análise de Skills</h2>
-            <p>O sistema identifica tecnologias como Python, Django, SQL, Docker, Git, APIs e outras.</p>
+            <h2>2. Envie seu currículo</h2>
+            <p>
+                Acesse <strong>Enviar Currículo</strong>, selecione um arquivo PDF
+                e informe um nome para identificação, como “Currículo Principal”.
+            </p>
         </div>
 
         <div class="card">
-            <h2>3. Match com Vagas</h2>
-            <p>As skills do currículo são comparadas com vagas cadastradas e o percentual de compatibilidade é calculado.</p>
+            <h2>3. Atualize as vagas</h2>
+            <p>
+                Clique em <strong>Atualizar Vagas</strong> para buscar oportunidades
+                reais em uma fonte externa e salvar os dados no banco.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>4. Calcule o match</h2>
+            <p>
+                Em <strong>Ver Vagas</strong>, selecione um currículo e calcule a
+                compatibilidade técnica com cada vaga.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>5. Veja os detalhes</h2>
+            <p>
+                Após calcular o match, o sistema mostra as competências alinhadas,
+                as competências faltantes e a explicação do cálculo utilizado.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>6. Acompanhe pelo dashboard</h2>
+            <p>
+                No <strong>Dashboard</strong>, selecione uma vaga e visualize o
+                percentual de compatibilidade com o currículo escolhido.
+            </p>
         </div>
     </div>
 
     <div class="card">
-        <h2>Fluxo do MVP</h2>
+        <h2>Comece a análise</h2>
         <p>
-            Envie um currículo, carregue vagas de exemplo, acesse a listagem de vagas
-            e calcule o percentual de compatibilidade técnica.
+            Para obter o melhor resultado, siga a ordem: envie o currículo, atualize
+            as vagas, calcule o match e consulte o dashboard de compatibilidade.
         </p>
 
-        <a class="button" href="/upload/">Começar pelo Upload</a>
-        <a class="button secondary" href="/curriculos/">Ver Currículos</a>
+        <a class="button" href="/upload/">Enviar Currículo</a>
+        <a class="button secondary" href="/atualizar-vagas/">Atualizar Vagas</a>
         <a class="button secondary" href="/vagas/">Ver Vagas</a>
+        <a class="button secondary" href="/dashboard/">Abrir Dashboard</a>
     </div>
 </main>
 {% endblock %}

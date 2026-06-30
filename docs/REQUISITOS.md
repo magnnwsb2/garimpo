@@ -11,7 +11,7 @@ Versão: MVP v0.1
 
 O Garimpo é um sistema web de curadoria inteligente de vagas de emprego. Seu objetivo é auxiliar usuários a analisarem a compatibilidade técnica entre seu currículo e vagas cadastradas ou importadas de uma fonte externa.
 
-O sistema permite o envio de currículo em PDF, extração básica de skills técnicas, importação de vagas reais e cálculo de compatibilidade entre o perfil do usuário e as oportunidades disponíveis.
+O sistema permite o envio de currículo em PDF, extração básica de skills técnicas, atualização de vagas reais e cálculo de compatibilidade entre o perfil do usuário e as oportunidades disponíveis.
 
 ## 3. Necessidade do Sistema
 
@@ -26,8 +26,8 @@ O Garimpo automatiza parte desse processo, permitindo que o usuário envie seu c
 - Identificar skills técnicas no currículo
 - Listar currículos processados
 - Cadastrar vagas pelo painel administrativo
-- Carregar vagas de demonstração
-- Importar vagas reais por fonte externa
+- Atualizar vagas reais a partir de fonte externa
+- Atualizar vagas reais por fonte externa
 - Persistir currículos, vagas e resultados no banco de dados
 - Calcular percentual de compatibilidade entre currículo e vaga
 - Exibir competências alinhadas
@@ -43,8 +43,8 @@ O MVP implementado contempla:
 - Tela de upload de currículo
 - Tela de currículos enviados
 - Tela de vagas cadastradas
-- Ação para carregar vagas demo
-- Ação para importar vagas reais
+- Ação para atualizar vagas
+- Ação para atualizar vagas
 - Resultado de match exibido abaixo da vaga
 - Página de detalhes do cálculo
 - Painel Admin Django
@@ -78,8 +78,8 @@ Como usuário, quero visualizar os detalhes do cálculo para entender quais comp
 - RF03: O sistema deve identificar skills técnicas a partir do currículo.
 - RF04: O sistema deve listar os currículos enviados.
 - RF05: O sistema deve permitir cadastro de vagas pelo Admin Django.
-- RF06: O sistema deve permitir carregar vagas demo.
-- RF07: O sistema deve importar vagas reais por fonte externa.
+- RF06: O sistema deve permitir atualizar vagas.
+- RF07: O sistema deve atualizar vagas por fonte externa.
 - RF08: O sistema deve listar vagas cadastradas ou importadas.
 - RF09: O sistema deve calcular o percentual de compatibilidade entre currículo e vaga.
 - RF10: O sistema deve exibir o resultado do match abaixo da vaga.
@@ -136,7 +136,7 @@ Motivo da escolha: reduz complexidade no banco para a versão inicial e facilita
 
 ### Dicionários
 
-Utilizados no carregamento de vagas demo e no processamento de dados vindos da fonte externa.
+Utilizados no carregamento de vagas reais e no processamento de dados vindos da fonte externa.
 
 Motivo da escolha: representam bem dados estruturados de vagas.
 
@@ -168,8 +168,8 @@ Percentual: 3 / 4 x 100 = 75%
 | RF03 | Extração de Skills | vagas | Curriculo | upload_curriculo | curriculos.html |
 | RF04 | Visualização de Currículos | vagas | Curriculo | listar_curriculos | curriculos.html |
 | RF05 | Cadastro de Vagas | vagas | Vaga | Admin Django | admin |
-| RF06 | Carregamento de Vagas Demo | vagas | Vaga | seed_vagas | vagas.html |
-| RF07 | Importação de Vagas Reais | vagas | Vaga | importar_vagas_reais | vagas.html |
+| RF06 | Atualização de Vagas Reais | vagas | Vaga | atualizar_vagas | vagas.html |
+| RF07 | Persistência de Vagas Reais | vagas | Vaga | atualizar_vagas | vagas.html |
 | RF08 | Listagem de Vagas | vagas | Vaga | listar_vagas | vagas.html |
 | RF09 | Cálculo de Match | vagas | MatchResultado | listar_vagas | vagas.html |
 | RF10 | Resultado Inline | vagas | MatchResultado | listar_vagas | vagas.html |
@@ -183,8 +183,8 @@ Percentual: 3 / 4 x 100 = 75%
 | /upload/ | Upload de currículo |
 | /curriculos/ | Lista currículos enviados |
 | /vagas/ | Lista vagas e calcula match |
-| /seed-vagas/ | Carrega vagas demo |
-| /importar-vagas-reais/ | Importa vagas reais |
+| /atualizar-vagas/ | Atualiza vagas reais |
+| /atualizar-vagas/ | Importa vagas reais |
 | /resultado/<id>/ | Detalhes do cálculo |
 | /admin/ | Painel administrativo Django |
 

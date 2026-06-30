@@ -19,7 +19,7 @@ A prioridade do MVP é cumprir os requisitos acadêmicos com uma aplicação rea
 - Extração simples de skills técnicas
 - Listagem de currículos enviados
 - Cadastro de vagas pelo Admin Django
-- Carregamento de vagas demo
+- Atualização de vagas reais
 - Importação de vagas reais via API externa
 - Persistência das vagas no banco
 - Cálculo de compatibilidade entre currículo e vaga
@@ -80,7 +80,7 @@ O usuário envia um currículo em PDF. O sistema extrai o texto do arquivo, iden
 
 O usuário seleciona um currículo e uma vaga. O sistema compara as skills extraídas do currículo com as skills exigidas pela vaga e calcula o percentual de match.
 
-### UC03 - Importar Vagas Reais
+### UC03 - Atualizar Vagas
 
 O sistema consulta uma fonte externa de vagas reais, extrai informações básicas e salva as vagas no banco de dados.
 
@@ -90,7 +90,7 @@ O sistema consulta uma fonte externa de vagas reais, extrai informações básic
 2. Usuário envia um currículo em PDF
 3. Sistema extrai skills do currículo
 4. Sistema salva o currículo no banco
-5. Usuário importa vagas reais ou carrega vagas demo
+5. Usuário atualiza vagas reais
 6. Sistema salva as vagas no banco
 7. Usuário acessa a lista de vagas
 8. Usuário escolhe um currículo

@@ -2,7 +2,7 @@
 
 Garimpo é um MVP acadêmico desenvolvido para a disciplina de Programação Avançada.
 
-O sistema realiza curadoria simples de vagas de emprego, permitindo upload de currículo em PDF, extração básica de skills técnicas, importação de vagas reais via fonte externa e cálculo de compatibilidade entre o perfil do usuário e vagas cadastradas.
+O sistema realiza curadoria simples de vagas de emprego, permitindo upload de currículo em PDF, extração básica de skills técnicas, atualização de vagas reais via fonte externa e cálculo de compatibilidade entre o perfil do usuário e vagas cadastradas.
 
 ## Objetivo
 
@@ -23,7 +23,7 @@ Criar um auditor simples de compatibilidade técnica para vagas de emprego, iden
 - Identificação de skills técnicas a partir de uma base pré-definida
 - Página para visualizar currículos enviados
 - Cadastro de vagas pelo Admin Django
-- Carregamento de vagas demo
+- Atualização de vagas reais
 - Importação de vagas reais por API externa
 - Persistência de currículos, vagas e resultados no banco SQLite
 - Cálculo de match entre currículo e vaga
@@ -56,7 +56,7 @@ Extração de Texto e Skills
 ↓
 Banco SQLite
 ↓
-Importação/Listagem de Vagas
+Atualização/Listagem de Vagas
 ↓
 Cálculo de Match
 ↓
@@ -96,8 +96,8 @@ Acesse:
 - /upload/ : Upload de currículo PDF
 - /curriculos/ : Lista de currículos enviados
 - /vagas/ : Lista de vagas e cálculo de match
-- /seed-vagas/ : Carrega vagas demo
-- /importar-vagas-reais/ : Importa vagas reais por API externa
+- /atualizar-vagas/ : Atualiza vagas reais
+- /atualizar-vagas/ : Importa vagas reais por API externa
 - /admin/ : Administração Django
 
 ## Cálculo de compatibilidade
