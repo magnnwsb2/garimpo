@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Vagas - Garimpo{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Vagas Cadastradas</h2>
+    <p>Escolha um currículo e calcule o match com uma vaga</p>
+</section>
+
+<main>
+    {% if not curriculos %}
+        <div class="alerta">
+            Nenhum currículo enviado ainda. <a href="/upload/">Enviar currículo</a>
+        </div>
+    {% endif %}
+
+    {% if not vagas %}
+        <div class="alerta">
+            Nenhuma vaga cadastrada ainda.
+            Clique em <strong>Carregar Vagas Demo</strong> ou <strong>Importar Vagas Reais</strong> no menu lateral.
+        </div>
+    {% endif %}
+
+    {% for vaga in vagas %}
+        <div class="card" id="vaga-{{ vaga.id }}">
+            <h2>{{ vaga.titulo }}</h2>
+            <p><strong>Empresa:</strong> {{ vaga.empresa }}</p>
+
+            {% if vaga.salario_estimado %}
+                <p class="salario">Salário estimado: R$ {{ vaga.salario_estimado }}</p>
+            {% endif %}
+
+            <p><strong>Skills exigidas:</strong> {{ vaga.skills_exigidas }}</p>
+            <p>{{ vaga.descricao }}</p>
+
+            {% if curriculos %}
+                <form method="post" action="{% url 'listar_vagas' %}#vaga-{{ vaga.id }}">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="vaga_id" value="{{ vaga.id }}">
+
+                    <label>Currículo:</label>
+                    <select name="curriculo_id" required>
+                        {% for curriculo in curriculos %}
+                            <option value="{{ curriculo.id }}">
+                                {{ curriculo.nome }} - {{ curriculo.skills_extraidas }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit">Calcular Match</button>
+
+                    {% if resultado_match and resultado_match.vaga.id == vaga.id %}
+                        <a class="button secondary" href="{% url 'resultado' resultado_match.id %}">
+                            Detalhes
+                        </a>
+                    {% endif %}
+                </form>
+            {% endif %}
+
+            {% if resultado_match and resultado_match.vaga.id == vaga.id %}
+                <div class="match-box">
+                    <h3>Resultado do Match</h3>
+
+                    <div class="score-inline">
+                        {{ resultado_match.percentual_match }}%
+                    </div>
+
+                    <p>
+                        O currículo de <strong>{{ resultado_match.curriculo.nome }}</strong>
+                        possui compatibilidade de
+                        <strong>{{ resultado_match.percentual_match }}%</strong>
+                        com esta vaga.
+                    </p>
+
+                    <div class="skills">
+                        <strong>Competências alinhadas:</strong>
+                        <br>
+                        {{ resultado_match.skills_encontradas|default:"Nenhuma competência alinhada encontrada." }}
+                    </div>
+
+                    <div class="faltantes">
+                        <strong>Competências faltantes:</strong>
+                        <br>
+                        {{ resultado_match.skills_faltantes|default:"Nenhuma competência faltante." }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</main>
+{% endblock %}

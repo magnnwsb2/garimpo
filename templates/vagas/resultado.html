@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do Match - Garimpo{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Detalhes do Match</h2>
+    <p>Explicação do cálculo de compatibilidade técnica</p>
+</section>
+
+<main>
+    <div class="card">
+        <h2>{{ resultado.vaga.titulo }} - {{ resultado.vaga.empresa }}</h2>
+        <p><strong>Currículo:</strong> {{ resultado.curriculo.nome }}</p>
+
+        <div class="score">{{ resultado.percentual_match }}%</div>
+
+        <div class="card">
+            <h3>Como o cálculo é feito?</h3>
+            <p>
+                O Garimpo compara as competências exigidas pela vaga com as competências
+                extraídas do currículo enviado em PDF.
+            </p>
+
+            <p>
+                A fórmula utilizada no MVP é:
+            </p>
+
+            <p>
+                <strong>
+                    percentual de match =
+                    (quantidade de skills encontradas / quantidade total de skills exigidas pela vaga) x 100
+                </strong>
+            </p>
+
+            <p>
+                Este cálculo é simples, transparente e adequado para o MVP, pois permite
+                demonstrar persistência, estrutura de dados, classes, modularização,
+                tratamento de exceções e interface.
+            </p>
+        </div>
+
+        <div class="skills">
+            <h3>Competências alinhadas com o currículo</h3>
+            <p>{{ resultado.skills_encontradas|default:"Nenhuma competência alinhada encontrada." }}</p>
+        </div>
+
+        <div class="faltantes">
+            <h3>Competências faltantes</h3>
+            <p>{{ resultado.skills_faltantes|default:"Nenhuma competência faltante." }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Dados usados na comparação</h3>
+            <p><strong>Skills extraídas do currículo:</strong></p>
+            <p>{{ resultado.curriculo.skills_extraidas }}</p>
+
+            <p><strong>Skills exigidas pela vaga:</strong></p>
+            <p>{{ resultado.vaga.skills_exigidas }}</p>
+        </div>
+
+        <a class="button" href="/vagas/#vaga-{{ resultado.vaga.id }}">Voltar para a vaga</a>
+    </div>
+</main>
+{% endblock %}

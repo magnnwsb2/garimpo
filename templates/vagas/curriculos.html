@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Currículos - Garimpo{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Currículos Enviados</h2>
+    <p>Visualização dos currículos processados pelo Garimpo</p>
+</section>
+
+<main>
+    {% if not curriculos %}
+        <div class="alerta">
+            Nenhum currículo enviado ainda. <a href="/upload/">Enviar currículo</a>
+        </div>
+    {% endif %}
+
+    {% for curriculo in curriculos %}
+        <div class="card">
+            <h2>{{ curriculo.nome }}</h2>
+
+            <p>
+                <strong>Arquivo:</strong>
+                <a href="{{ curriculo.arquivo.url }}" target="_blank">
+                    Abrir PDF enviado
+                </a>
+            </p>
+
+            <p><strong>Enviado em:</strong> {{ curriculo.criado_em }}</p>
+
+            <div class="skills">
+                <strong>Skills extraídas:</strong>
+                <br>
+                {{ curriculo.skills_extraidas|default:"Nenhuma skill identificada." }}
+            </div>
+        </div>
+    {% endfor %}
+</main>
+{% endblock %}

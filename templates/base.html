@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Garimpo{% endblock %}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #111827;
+            color: white;
+            padding: 24px 18px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 28px;
+            margin: 0 0 8px;
+        }
+
+        .sidebar p {
+            font-size: 13px;
+            color: #d1d5db;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            background: #1f2937;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background: #374151;
+        }
+
+        .menu a.primary {
+            background: #059669;
+        }
+
+        .menu a.warning {
+            background: #d97706;
+        }
+
+        .content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+        }
+
+        .page-header {
+            background: white;
+            padding: 34px 40px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-size: 32px;
+            color: #111827;
+        }
+
+        .page-header p {
+            margin: 8px 0 0;
+            color: #6b7280;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 24px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .button, button {
+            background: #059669;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .button.secondary {
+            background: #374151;
+        }
+
+        .button.warning {
+            background: #d97706;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 14px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .alerta {
+            background: #fef3c7;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .erro {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .skills {
+            background: #ecfdf5;
+            color: #065f46;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .score {
+            font-size: 52px;
+            color: #059669;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .salario {
+            color: #059669;
+            font-weight: bold;
+        }
+
+        a {
+            color: #374151;
+        }
+
+        @media (max-width: 800px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    
+        .match-box {
+            margin-top: 22px;
+            border: 1px solid #d1fae5;
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .score-inline {
+            font-size: 38px;
+            color: #059669;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .faltantes {
+            background: #fff7ed;
+            color: #9a3412;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h1>Garimpo</h1>
+            <p>MVP de curadoria de vagas e compatibilidade técnica.</p>
+
+            <nav class="menu">
+                <a class="primary" href="/">Início</a>
+                <a href="/upload/">Enviar Currículo</a>
+                <a href="/curriculos/">Ver Currículos</a>
+                <a href="/vagas/">Ver Vagas</a>
+                <a class="warning" href="/seed-vagas/">Carregar Vagas Demo</a>
+                <a class="warning" href="/importar-vagas-reais/">Importar Vagas Reais</a>
+                <a href="/admin/">Admin Django</a>
+            </nav>
+        </aside>
+
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

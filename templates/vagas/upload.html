@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Upload de Currículo - Garimpo{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Upload de Currículo</h2>
+    <p>Envie um PDF para extração simples de skills</p>
+</section>
+
+<main>
+    <div class="card">
+        {% if erro %}
+            <div class="erro">{{ erro }}</div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Nome do usuário</label>
+            <input type="text" name="nome" placeholder="Ex: Magnnws Brunno" required>
+
+            <label>Currículo em PDF</label>
+            <input type="file" name="arquivo" accept="application/pdf" required>
+
+            <button type="submit">Enviar Currículo</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

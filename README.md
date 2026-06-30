@@ -2,7 +2,7 @@
 
 Garimpo é um MVP acadêmico desenvolvido para a disciplina de Programação Avançada.
 
-O sistema realiza curadoria simples de vagas de emprego, permitindo upload de currículo em PDF, extração básica de skills técnicas e cálculo de compatibilidade entre o perfil do usuário e vagas cadastradas.
+O sistema realiza curadoria simples de vagas de emprego, permitindo upload de currículo em PDF, extração básica de skills técnicas, importação de vagas reais via fonte externa e cálculo de compatibilidade entre o perfil do usuário e vagas cadastradas.
 
 ## Objetivo
 
@@ -12,87 +12,135 @@ Criar um auditor simples de compatibilidade técnica para vagas de emprego, iden
 - Skills exigidas pela vaga
 - Skills faltantes
 - Percentual de compatibilidade
+- Vagas mais aderentes ao perfil do usuário
 
-## Funcionalidades do MVP
+## Funcionalidades implementadas no MVP
 
+- Interface web em Django
+- Menu lateral de navegação
 - Upload de currículo em PDF
-- Extração simples de texto do currículo
-- Identificação de skills técnicas
-- Cadastro/listagem de vagas
+- Extração simples de texto do currículo com pdfplumber
+- Identificação de skills técnicas a partir de uma base pré-definida
+- Página para visualizar currículos enviados
+- Cadastro de vagas pelo Admin Django
+- Carregamento de vagas demo
+- Importação de vagas reais por API externa
+- Persistência de currículos, vagas e resultados no banco SQLite
 - Cálculo de match entre currículo e vaga
-- Interface web simples em Django
-- Deploy em nuvem via Render
+- Exibição do resultado diretamente abaixo da vaga
+- Botão de detalhes após o cálculo
+- Página de detalhes explicando a fórmula do match
+- Versionamento com Git/GitHub
 
-## Tecnologias
+## Tecnologias utilizadas
 
 - Python
 - Django
+- Django REST Framework
 - SQLite
 - pdfplumber
-- Bootstrap
+- requests
+- HTML/CSS
 - Git/GitHub
 - Render
 
+## Arquitetura simplificada
+
+Usuário
+↓
+Interface Django
+↓
+Upload de Currículo PDF
+↓
+Extração de Texto e Skills
+↓
+Banco SQLite
+↓
+Importação/Listagem de Vagas
+↓
+Cálculo de Match
+↓
+Resultado e Detalhes
+
 ## Como executar localmente
 
-```bash
-git clone https://github.com/magnnwsb2/garimpo.git
-cd garimpo
+1. Clonar o repositório:
 
-python3 -m venv .venv
-source .venv/bin/activate
+    git clone https://github.com/magnnwsb2/garimpo.git
+    cd garimpo
 
-pip install -r requirements.txt
+2. Criar e ativar ambiente virtual:
 
-python manage.py migrate
-python manage.py runserver
-Agora cole este segundo bloco:
+    python3 -m venv .venv
+    source .venv/bin/activate
 
-```bash
-cat > docs/ROADMAP.md <<'EOF'
-# Roadmap do Projeto Garimpo
+3. Instalar dependências:
 
-## MVP v0.1
+    pip install -r requirements.txt
 
-O objetivo desta versão é entregar um produto mínimo viável, funcional e publicado em nuvem.
+4. Executar migrations:
 
-## Escopo incluído
+    python manage.py migrate
 
-- Projeto Django
-- Banco SQLite
-- Upload de currículo PDF
-- Extração simples de skills
-- Cadastro/listagem de vagas
-- Cálculo de compatibilidade
-- Página de resultado
-- GitHub
-- Deploy no Render
+5. Rodar servidor:
 
-## Fora do escopo nesta versão
+    python manage.py runserver
 
-- Machine Learning avançado
-- Scraping automático
-- Airflow
-- Docker
-- Redis
-- Celery
-- CI/CD avançado
-- Login completo
+Acesse:
 
-## Casos de uso
+    http://127.0.0.1:8000/
 
-### UC01 - Upload de Currículo
+## Rotas principais
 
-O usuário envia um currículo em PDF e o sistema extrai skills técnicas básicas.
+- / : Página inicial
+- /upload/ : Upload de currículo PDF
+- /curriculos/ : Lista de currículos enviados
+- /vagas/ : Lista de vagas e cálculo de match
+- /seed-vagas/ : Carrega vagas demo
+- /importar-vagas-reais/ : Importa vagas reais por API externa
+- /admin/ : Administração Django
 
-### UC02 - Calcular Compatibilidade
+## Cálculo de compatibilidade
 
-O sistema compara as skills extraídas do currículo com as skills exigidas pelas vagas cadastradas e retorna um percentual de match.
+percentual de match =
+(quantidade de skills encontradas / quantidade total de skills exigidas pela vaga) x 100
 
-## Entregas
+Exemplo:
 
-- Código no GitHub
-- Aplicação publicada no Render
-- Documento de requisitos
-- Diagramas UML
-- Matriz de rastreabilidade
+Skills da vaga: python, sql, django, docker  
+Skills encontradas no currículo: python, sql, docker  
+
+Match = 3 / 4 x 100 = 75%
+
+## Banco de Dados
+
+Nesta versão, o projeto utiliza SQLite para persistência local.
+
+Tabelas principais:
+
+- Curriculo
+- Vaga
+- MatchResultado
+
+## Docker
+
+Docker não foi utilizado nesta versão MVP.
+
+A decisão foi manter a entrega simples e funcional, usando ambiente virtual Python com venv. Docker está previsto como evolução futura do projeto.
+
+## Deploy
+
+O deploy em nuvem será realizado no Render.
+
+O objetivo é disponibilizar a aplicação com:
+
+- Link público
+- Código versionado no GitHub
+- Execução em ambiente web
+- Persistência básica para demonstração
+
+## Status
+
+MVP funcional em desenvolvimento.
+
+Versão atual: v0.1.0

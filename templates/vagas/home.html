@@ -1,11 +1,41 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Garimpo</title>
-</head>
-<body>
-    <h1>Garimpo</h1>
-    <p>MVP de curadoria de vagas e compatibilidade técnica.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Garimpo - Início{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h2>Dashboard Inicial</h2>
+    <p>MVP de curadoria de vagas e compatibilidade técnica</p>
+</section>
+
+<main>
+    <div class="grid">
+        <div class="card">
+            <h2>1. Upload de Currículo</h2>
+            <p>Envie um currículo em PDF para que o sistema extraia skills técnicas automaticamente.</p>
+        </div>
+
+        <div class="card">
+            <h2>2. Análise de Skills</h2>
+            <p>O sistema identifica tecnologias como Python, Django, SQL, Docker, Git, APIs e outras.</p>
+        </div>
+
+        <div class="card">
+            <h2>3. Match com Vagas</h2>
+            <p>As skills do currículo são comparadas com vagas cadastradas e o percentual de compatibilidade é calculado.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Fluxo do MVP</h2>
+        <p>
+            Envie um currículo, carregue vagas de exemplo, acesse a listagem de vagas
+            e calcule o percentual de compatibilidade técnica.
+        </p>
+
+        <a class="button" href="/upload/">Começar pelo Upload</a>
+        <a class="button secondary" href="/curriculos/">Ver Currículos</a>
+        <a class="button secondary" href="/vagas/">Ver Vagas</a>
+    </div>
+</main>
+{% endblock %}
