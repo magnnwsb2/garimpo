@@ -12,6 +12,8 @@ packaging==26.2
 pdfminer.six==20260107
 pdfplumber==0.11.10
 pillow==12.2.0
+psycopg==3.3.4
+psycopg-binary==3.3.4
 pycparser==3.0
 pypdfium2==5.11.0
 python-dotenv==1.2.2
